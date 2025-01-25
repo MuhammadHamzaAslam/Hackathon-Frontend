@@ -4,6 +4,7 @@ import Home from "./HomePage/Home";
 import { getCurrentUser } from "./Constant/helperFunction";
 import Auth from "./Auth/Auth";
 import Admin from "./Admin/Admin";
+import UserJourney from "./User Journey/userJourney";
 
 function App() {
   const currentUser = getCurrentUser();
@@ -12,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={
             currentUser?.role === "admin" ? (
@@ -23,7 +24,8 @@ function App() {
               <Auth />
             )
           }
-        />
+        /> */}
+        <Route path="/" element={<UserJourney />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>

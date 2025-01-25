@@ -31,7 +31,7 @@ export function SignupForm() {
       toast.error("Please select a gender");
       return;
     }
-    if (!gender) {
+    if (!profilePicture) {
       toast.error("Please select a profile picture");
       return;
     }

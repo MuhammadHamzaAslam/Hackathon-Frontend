@@ -1,0 +1,33 @@
+hello v0 dev i am making micro finance appfor this i have to create a landing page in this page u will show these things
+Landing Page
+● first navbar 
+● hero section  
+● Displays loan categories and subcategories.
+● Includes a loan calculator where users can:
+○ Select a category and subcategory.
+○ Input initial deposit.
+○ Select loan period.
+○ Calculate the estimated loan breakdown.
+
+this will done with shadcn components and tailwind css in react js 
+make this is jsx avoid to use tsx
+
+
+Loan Categories
+The organization offers support in the following categories:
+1. Wedding Loans
+○ Subcategories: Valima, Furniture, Valima Food, Jahez
+○ Maximum loan: PKR 5 Lakh
+○ Loan period: 3 years
+2. Home Construction Loans
+○ Subcategories: Structure, Finishing, Loan
+○ Maximum loan: PKR 10 Lakh
+○ Loan period: 5 years
+3. Business Startup Loans
+○ Subcategories: Buy Stall, Advance Rent for Shop, Shop Assets, Shop Machinery
+○ Maximum loan: PKR 10 Lakh
+○ Loan period: 5 years
+4. Education Loans
+○ Subcategories: University Fees, Child Fees Loan
+○ Maximum loan: Based on requirement
+○ Loan period: 4 years
