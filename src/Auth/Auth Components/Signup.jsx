@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useNavigate } from "react-router";
 
 export function SignupForm() {
   const [name, setName] = useState("");
@@ -22,6 +23,7 @@ export function SignupForm() {
   const [profilePicture, setProfilePicture] = useState(null);
   const [loading, setLoading] = useState(false);
   const [imageLink, setImageLink] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,11 +71,19 @@ export function SignupForm() {
       const result = await signupResponse.json();
       sessionStorage.setItem("token", result.token);
       sessionStorage.setItem("user", JSON.stringify(result.user));
-      // console.log("result =>", result);
+      console.log("result =>", result);
 
       setLoading(false);
       if (signupResponse.ok) {
         toast.success("Account created successfully");
+        toast.success("You will be redirected to the main page");
+        setTimeout(() => {
+          if (result.user.role === "admin") {
+            navigate("/admin");
+          } else if (result.user.role === "user") {
+            navigate("/");
+          }
+        }, 100);
         setName("");
         setEmail("");
         setPassword("");

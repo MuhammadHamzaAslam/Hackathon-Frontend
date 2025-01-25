@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 
@@ -10,6 +10,7 @@ export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,10 +39,19 @@ export function LoginForm() {
 
       if (loginUser.ok) {
         toast.success("Login Successful");
+        toast.success("You will be redirected to the main page");
+
+        if (response?.checkingUser?.role === "admin") {
+          navigate("/admin");
+        } else if (response?.checkingUser?.role === "user") {
+          navigate("/");
+        }
+
         setEmail("");
         setPassword("");
       } else {
         toast.error("Invalid Credentials");
+
         setEmail("");
         setPassword("");
       }
