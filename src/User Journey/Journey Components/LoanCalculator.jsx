@@ -135,7 +135,7 @@ const LoanCalculator = () => {
                 </SelectTrigger>
                 <SelectContent>
                   {category &&
-                    loanCategories
+                    allCategories
                       .find(
                         (currentCategory) => currentCategory.name === category
                       )
@@ -146,11 +146,11 @@ const LoanCalculator = () => {
               </Select>
 
               <Input
-                type="number"
+                type="text"
                 placeholder="Max Loan Provided"
                 value={
                   category &&
-                  loanCategories.find(
+                  allCategories.find(
                     (currentCategory) => currentCategory.name === category
                   ).maxLoan
                 }
@@ -249,4 +249,3 @@ const LoanCalculator = () => {
 };
 
 export default LoanCalculator;
-

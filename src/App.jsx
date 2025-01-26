@@ -7,7 +7,7 @@ import Admin from "./Admin/Admin";
 import UserJourney from "./User Journey/userJourney";
 import ApplicationDashboard from "./Application Dashboard/Dashboard";
 import AdminApplication from "./Admin/AdminApplication";
-import AdminCategory from "./Admin/Admin Components/AdminCategory";
+import AdminCategory from "./Admin/AdminCategory";
 
 function App() {
   const currentUser = getCurrentUser();
