@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -58,6 +58,7 @@ const LoanCalculator = () => {
   const [loanPeriod, setLoanPeriod] = useState("");
   const [loanBreakdown, setLoanBreakdown] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [allCategories, setAllCategories] = useState(null);
 
   const handleCalculate = () => {
     if (!category || !initialDeposit || !loanPeriod) return;
@@ -90,6 +91,20 @@ const LoanCalculator = () => {
     console.log("loanBreakdown =>", loanBreakdown);
   };
 
+  useEffect(() => {
+    fetchCategories();
+    console.log("allCategories =>" , allCategories);
+    
+  }, []);
+
+  const fetchCategories = async () => {
+    let response = await fetch(
+      `http://localhost:4000/api/category/getAllCategories`
+    );
+    response = await response.json();
+    setAllCategories(response?.data);
+  };
+
   return (
     <div className="py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -107,9 +122,9 @@ const LoanCalculator = () => {
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent>
-                  {loanCategories.map((cat, index) => (
+                  {allCategories?.map((cat, index) => (
                     <SelectItem key={index} value={cat.name}>
-                      {cat.name}
+                      {cat.categoryName}
                     </SelectItem>
                   ))}
                 </SelectContent>

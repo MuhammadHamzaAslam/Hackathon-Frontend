@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 const loanCategories = [
@@ -34,6 +34,20 @@ const loanCategories = [
 ];
 
 const LoanCategories = () => {
+  const [allCategories, setAllCategories] = useState();
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    let response = await fetch(
+      `http://localhost:4000/api/category/getAllCategories`
+    );
+    response = await response.json();
+    setAllCategories(response.data)
+    console.log("response =>", response);
+  };
   return (
     <div className="py-12 bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

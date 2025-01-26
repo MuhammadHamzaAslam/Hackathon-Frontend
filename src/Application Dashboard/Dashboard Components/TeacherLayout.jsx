@@ -67,22 +67,12 @@ import { LogoutUser } from "../../Constant/helperFunction";
 const navItems = [
   {
     title: "Home",
-    href: "/admin",
+    // href: "/admin",
     icon: FaHome,
-  },
-  {
-    title: "Application",
-    icon: FaBookOpen,
-    href : "/admin/application"
-  },
-  {
-    title: "Add Category",
-    icon: FaBookOpen,
-    href : "/admin/category"
   },
 ];
 
-export default function AdminLayout({ children }) {
+export default function TeacherLayout({ children }) {
   const loc = useLocation();
   //  console.log(loc.pathname.startsWith("/admin"));
 
