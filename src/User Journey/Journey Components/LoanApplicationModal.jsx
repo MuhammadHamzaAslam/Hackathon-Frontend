@@ -1,82 +1,76 @@
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
-const LoanApplicationModal = ({ loanBreakdown, loanPeriod }) => {
+const LoanApplicationModal = ({
+  onProceed,
+  loanBreakdown,
+  loanPeriod,
+  setShowLoanGurantor,
+  setShowApplicationModal,
+}) => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [cnic, setCnic] = useState("");
 
   const handleProceed = () => {
     if (!userName || !email || !cnic || cnic.length !== 13) {
-      toast.error("Please fill all the fields");
-      return
+      toast.error("Please fill all the fields correctly");
+      return;
     }
-    console.log(userName , email , cnic);
-    
-    toast.success("Loan application submitted successfully");
+    toast.success("Basic details saved, proceed to next step");
+    onProceed({ userName, email, cnic, loanBreakdown, loanPeriod });
+    setShowLoanGurantor(true);
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="w-full mt-4">Proceed with Loan Application</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Loan Application</DialogTitle>
-        </DialogHeader>
-        <div className="flex justify-center flex-col gap-3">
-          <Label>Your Name</Label>
-          <Input
-            type="text"
-            placeholder="Enter Your Name"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          <Label>Your Email</Label>
-          <Input
-            type="email"
-            placeholder="Enter Your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <Label>Your CNIC</Label>
-          <Input
-            type="number"
-            placeholder="Enter Your CNIC"
-            value={cnic}
-            onChange={(e) => setCnic(e.target.value)}
-          />
-        </div>
-        <div className="py-4">
-          <p>Your loan application details:</p>
-          <ul className="list-disc pl-5 mt-2">
-            <li>Loan Amount: PKR {loanBreakdown?.loanAmount}</li>
-            <li>Monthly Payment: PKR {loanBreakdown?.monthlyPayment}</li>
-            <li>Loan Period: {loanPeriod} years</li>
-          </ul>
-          <p className="mt-4">
-            Are you sure you want to proceed with this loan application?
-          </p>
-        </div>
-        <div className="flex justify-end space-x-2">
-          <Button variant="outline" onClick={() => {}}>
-            Cancel
-          </Button>
-          <Button onClick={handleProceed}>Confirm Application</Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <div className="flex flex-col gap-4">
+      <div className="grid w-full items-center gap-1.5">
+        <Label htmlFor="userName">Your Name</Label>
+        <Input
+          id="userName"
+          type="text"
+          placeholder="Enter Your Name"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+      </div>
+      <div className="grid w-full items-center gap-1.5">
+        <Label htmlFor="email">Your Email</Label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="Enter Your Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div className="grid w-full items-center gap-1.5">
+        <Label htmlFor="cnic">Your CNIC</Label>
+        <Input
+          id="cnic"
+          type="text"
+          placeholder="Enter Your CNIC"
+          value={cnic}
+          onChange={(e) => setCnic(e.target.value)}
+        />
+      </div>
+      <div className="flex justify-end space-x-2">
+        <Button variant="outline" onClick={() => {}}>
+          Cancel
+        </Button>
+        <Button
+          onClick={() => {
+            handleProceed();
+            setShowApplicationModal(false);
+          }}
+        >
+          Next
+        </Button>
+      </div>
+    </div>
   );
 };
 

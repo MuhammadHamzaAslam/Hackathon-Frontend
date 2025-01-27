@@ -18,38 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-const loanCategories = [
-  {
-    name: "Wedding Loans",
-    subcategories: ["Valima", "Furniture", "Valima Food", "Jahez"],
-    maxLoan: 500000,
-    period: 3,
-  },
-  {
-    name: "Home Construction Loans",
-    subcategories: ["Structure", "Finishing", "Loan"],
-    maxLoan: 1000000,
-    period: 5,
-  },
-  {
-    name: "Business Startup Loans",
-    subcategories: [
-      "Buy Stall",
-      "Advance Rent for Shop",
-      "Shop Assets",
-      "Shop Machinery",
-    ],
-    maxLoan: 1000000,
-    period: 5,
-  },
-  {
-    name: "Education Loans",
-    subcategories: ["University Fees", "Child Fees Loan"],
-    maxLoan: 1000000,
-    period: 4,
-  },
-];
+import LoanGurantorModal from "./LoanGurantorModal";
 
 const LoanCalculator = () => {
   const [category, setCategory] = useState("");
@@ -59,17 +28,39 @@ const LoanCalculator = () => {
   const [loanBreakdown, setLoanBreakdown] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [allCategories, setAllCategories] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
+  const [showLoanApplication, setShowLoanApplication] = useState(false);
+  const [showLoanGurantor, setShowLoanGurantor] = useState(false);
 
   const handleCalculate = () => {
     if (!category || !initialDeposit || !loanPeriod) return;
 
-    const selectedCategory = loanCategories.find(
+    // Find the selected category
+    const selectedCategory = allCategories.find(
       (currentCategory) => currentCategory.name === category
     );
-    const maxLoan = selectedCategory.maxLoan;
-    const initialDepositNumber = Number(initialDeposit);
-    const loanPeriodNumber = Number(loanPeriod);
 
+    // Extract the maxLoan value and convert it to number based on "Lakh" or "Crore"
+    const maxLoanStr = selectedCategory.maxLoan;
+
+    // Convert maxLoan to a number (handling Lakh, Crore, and raw numbers)
+    let maxLoan = parseFloat(maxLoanStr.replace(/[^0-9.]+/g, "")); // Remove non-numeric characters
+
+    // Check if 'Lakh' is present
+    if (maxLoanStr.includes("Lakh")) {
+      maxLoan *= 100000; // Convert to actual number (1 Lakh = 100,000)
+    }
+
+    // Check if 'Crore' is present
+    if (maxLoanStr.includes("Crore")) {
+      maxLoan *= 10000000; // Convert to actual number (1 Crore = 10,000,000)
+    }
+
+    // Convert input values to numbers
+    const initialDepositNumber = parseFloat(initialDeposit);
+    const loanPeriodNumber = parseInt(loanPeriod, 10);
+
+    // Validation for initial deposit greater than maxLoan
     if (initialDepositNumber >= maxLoan) {
       setLoanBreakdown({
         error:
@@ -78,14 +69,18 @@ const LoanCalculator = () => {
       return;
     }
 
+    // Calculate loan details
     const loanAmount = maxLoan - initialDepositNumber;
     const monthlyPayment = loanAmount / (loanPeriodNumber * 12);
+    const yearlyPayment = monthlyPayment * 12;
+    const totalPayment = loanAmount;
 
+    // Set loan breakdown
     setLoanBreakdown({
       loanAmount: loanAmount.toFixed(2),
       monthlyPayment: monthlyPayment.toFixed(2),
-      yearlyPayment: (monthlyPayment * 12).toFixed(2),
-      totalPayment: loanAmount.toFixed(2),
+      yearlyPayment: yearlyPayment.toFixed(2),
+      totalPayment: totalPayment.toFixed(2),
     });
 
     console.log("loanBreakdown =>", loanBreakdown);
@@ -102,6 +97,10 @@ const LoanCalculator = () => {
     );
     response = await response.json();
     setAllCategories(response?.data);
+  };
+
+  const handleProceed = (data) => {
+    setUserDetails(data);
   };
 
   return (
@@ -233,10 +232,42 @@ const LoanCalculator = () => {
                         </CardContent>
                       </Card>
                     </div>
-                    <LoanApplicationModal
-                      loanBreakdown={loanBreakdown}
-                      loanPeriod={loanPeriod}
-                    />
+                    <Dialog
+                      open={showLoanApplication}
+                      onOpenChange={setShowLoanApplication}
+                    >
+                      <DialogTrigger asChild>
+                        <Button
+                          className="w-full mt-4"
+                          onClick={() => setShowLoanApplication(true)}
+                        >
+                          Click to Proceed
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                          <DialogTitle>Loan Application</DialogTitle>
+                        </DialogHeader>
+                        <LoanApplicationModal
+                          onProceed={handleProceed}
+                          loanBreakdown={loanBreakdown}
+                          loanPeriod={loanPeriod}
+                          setShowApplicationModal={(setShowLoanApplication)}
+                          setShowLoanGurantor={setShowLoanGurantor}
+                        />
+                      </DialogContent>
+                    </Dialog>
+                    <Dialog
+                      open={showLoanGurantor}
+                      onOpenChange={setShowLoanGurantor}
+                    >
+                      <DialogContent className="sm:max-w-[60vw] ">
+                        <DialogHeader>
+                          <DialogTitle>Loan Guarantor</DialogTitle>
+                        </DialogHeader>
+                        <LoanGurantorModal userDetails={userDetails} setShowLoanGurantor={setShowLoanGurantor} />
+                      </DialogContent>
+                    </Dialog>
                   </>
                 )}
               </div>

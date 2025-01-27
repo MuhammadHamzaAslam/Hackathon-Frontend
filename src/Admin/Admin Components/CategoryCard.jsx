@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Edit, Trash, X } from "lucide-react";
+import { Loader2, Edit, Trash, Plus } from "lucide-react";
 import toast from "react-hot-toast";
 
 const CategoryCard = ({ category, onEdit, onDelete, isDeleting }) => {
@@ -65,6 +65,7 @@ const CategoryList = () => {
   const [isDeleting, setIsDeleting] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [newSubcategory, setNewSubcategory] = useState(""); // State for new subcategory
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Fetch Categories
@@ -118,8 +119,7 @@ const CategoryList = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     setIsUpdating(true);
-    console.log("selectedCategory =>" , selectedCategory);
-    
+
     const updatedCategory = {
       name: selectedCategory.name,
       maxLoan: selectedCategory.maxLoan,
@@ -161,6 +161,18 @@ const CategoryList = () => {
       ...selectedCategory,
       subcategories: updatedSubcategories,
     });
+  };
+
+  const handleAddSubcategory = () => {
+    if (newSubcategory.trim()) {
+      setSelectedCategory({
+        ...selectedCategory,
+        subcategories: [...selectedCategory.subcategories, newSubcategory],
+      });
+      setNewSubcategory("");
+    } else {
+      toast.error("Subcategory cannot be empty.");
+    }
   };
 
   return (
@@ -223,10 +235,25 @@ const CategoryList = () => {
                       size="icon"
                       onClick={() => handleDeleteSubcategory(index)}
                     >
-                      <X className="w-4 h-4" />
+                      <Trash className="w-4 text-red-500 h-4" />
                     </Button>
                   </div>
                 ))}
+
+                <div className="flex items-center gap-2">
+                  <Input
+                    placeholder="Add new subcategory"
+                    value={newSubcategory}
+                    onChange={(e) => setNewSubcategory(e.target.value)}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleAddSubcategory}
+                  >
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
 
                 <Label>Max Loan</Label>
                 <Input
