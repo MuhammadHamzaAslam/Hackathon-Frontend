@@ -12,22 +12,16 @@ export default function LoanCard({ category, onApply }) {
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <CardTitle>{category.name}</CardTitle>
-        <CardDescription>Max Loan: {category.maxLoan}</CardDescription>
+        <CardTitle>{category?.category}</CardTitle>
+        <CardDescription>Max Loan: {category?.maxLoan}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
-        <p className="font-semibold mb-2">Subcategories:</p>
-        <ul className="list-disc list-inside">
-          {category.subcategories.map((sub, index) => (
-            <li key={index}>{sub}</li>
-          ))}
-        </ul>
+        <p className="font-semibold mb-2">Subcategories: {category.subcategory} </p>
       </CardContent>
       <CardFooter className="flex justify-between items-center">
         <p className="text-sm text-muted-foreground">
-          Period: {category.period}
+          Period: {category?.period}
         </p>
-        <Button onClick={onApply}>Apply Now</Button>
       </CardFooter>
     </Card>
   );

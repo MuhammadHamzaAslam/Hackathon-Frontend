@@ -34,16 +34,16 @@ export function LoginForm() {
       console.log("response =>", response);
 
       sessionStorage.setItem("token", response.token);
-      sessionStorage.setItem("user", JSON.stringify(response.checkingUser));
+      sessionStorage.setItem("user", JSON.stringify(response.user));
       setLoading(false);
 
       if (loginUser.ok) {
         toast.success("Login Successful");
         toast.success("You will be redirected to the main page");
 
-        if (response?.checkingUser?.role === "admin") {
+        if (response?.user?.role === "admin") {
           navigate("/admin");
-        } else if (response?.checkingUser?.role === "user") {
+        } else if (response?.user?.role === "user") {
           navigate("/your-application");
         }
 
