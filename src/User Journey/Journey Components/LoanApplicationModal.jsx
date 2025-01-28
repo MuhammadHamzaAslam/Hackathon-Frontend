@@ -14,14 +14,16 @@ const LoanApplicationModal = ({
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [cnic, setCnic] = useState("");
+  const [country , setCountry] = useState("")
+  const [city , setCity] = useState("")
 
   const handleProceed = () => {
-    if (!userName || !email || !cnic || cnic.length !== 13) {
+    if (!userName || !email || !cnic || cnic.length !== 13 || !country || !city) {
       toast.error("Please fill all the fields correctly");
       return;
     }
     toast.success("Basic details saved, proceed to next step");
-    onProceed({ userName, email, cnic, loanBreakdown, loanPeriod });
+    onProceed({ userName, email, cnic, country , city , loanBreakdown, loanPeriod });
     setShowLoanGurantor(true);
   };
 
@@ -55,6 +57,26 @@ const LoanApplicationModal = ({
           placeholder="Enter Your CNIC"
           value={cnic}
           onChange={(e) => setCnic(e.target.value)}
+        />
+      </div>
+      <div className="grid w-full items-center gap-1.5">
+        <Label htmlFor="cnic">Your Country</Label>
+        <Input
+          id="country"
+          type="text"
+          placeholder="Enter Your Country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+        />
+      </div>
+      <div className="grid w-full items-center gap-1.5">
+        <Label htmlFor="cnic">Your City</Label>
+        <Input
+          id="city"
+          type="text"
+          placeholder="Enter Your City"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
         />
       </div>
       <div className="flex justify-end space-x-2">

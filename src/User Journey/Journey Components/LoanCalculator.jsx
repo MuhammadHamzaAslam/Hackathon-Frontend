@@ -31,6 +31,7 @@ const LoanCalculator = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [showLoanApplication, setShowLoanApplication] = useState(false);
   const [showLoanGurantor, setShowLoanGurantor] = useState(false);
+  const [loanAmount, setLoanAmount] = useState(null);
 
   const handleCalculate = () => {
     if (!category || !initialDeposit || !loanPeriod) return;
@@ -158,6 +159,13 @@ const LoanCalculator = () => {
 
               <Input
                 type="number"
+                placeholder="Enter Loan Amount (PKR)"
+                value={loanAmount}
+                onChange={(e) => setLoanAmount(e.target.value)}
+              />
+
+              <Input
+                type="number"
                 placeholder="Initial deposit (PKR)"
                 value={initialDeposit}
                 onChange={(e) => setInitialDeposit(e.target.value)}
@@ -252,7 +260,7 @@ const LoanCalculator = () => {
                           onProceed={handleProceed}
                           loanBreakdown={loanBreakdown}
                           loanPeriod={loanPeriod}
-                          setShowApplicationModal={(setShowLoanApplication)}
+                          setShowApplicationModal={setShowLoanApplication}
                           setShowLoanGurantor={setShowLoanGurantor}
                         />
                       </DialogContent>
@@ -265,7 +273,15 @@ const LoanCalculator = () => {
                         <DialogHeader>
                           <DialogTitle>Loan Guarantor</DialogTitle>
                         </DialogHeader>
-                        <LoanGurantorModal userDetails={userDetails} setShowLoanGurantor={setShowLoanGurantor} />
+                        <LoanGurantorModal
+                          userDetails={userDetails}
+                          setShowLoanGurantor={setShowLoanGurantor}
+                          category={category}
+                          subcategory={subcategory}
+                          loanAmount={loanAmount}
+                          initialDeposit={initialDeposit}
+                          loanPeriod={loanPeriod}
+                        />
                       </DialogContent>
                     </Dialog>
                   </>

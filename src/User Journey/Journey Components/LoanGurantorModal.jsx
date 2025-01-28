@@ -4,17 +4,31 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "react-hot-toast";
 import "../../App";
+import { data } from "react-router";
 
-const LoanGurantorModal = ({ onConfirm, userDetails, setShowLoanGurantor }) => {
+const LoanGurantorModal = ({
+  onConfirm,
+  userDetails,
+  setShowLoanGurantor,
+  category,
+  subcategory,
+  loanPeriod,
+  loanAmount,
+  initialDeposit,
+}) => {
   const [guarantor1Name, setGuarantor1Name] = useState("");
   const [guarantor1Email, setGuarantor1Email] = useState("");
   const [guarantor1Location, setGuarantor1Location] = useState("");
   const [guarantor1Cnic, setGuarantor1Cnic] = useState("");
+  const [guarantor1Country, setGuarantor1Country] = useState("");
+  const [guarantor1City, setGuarantor1City] = useState("");
 
   const [guarantor2Name, setGuarantor2Name] = useState("");
   const [guarantor2Email, setGuarantor2Email] = useState("");
   const [guarantor2Location, setGuarantor2Location] = useState("");
   const [guarantor2Cnic, setGuarantor2Cnic] = useState("");
+  const [guarantor2Country, setGuarantor2Country] = useState("");
+  const [guarantor2City, setGuarantor2City] = useState("");
 
   const [personalAddress, setPersonalAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -22,7 +36,7 @@ const LoanGurantorModal = ({ onConfirm, userDetails, setShowLoanGurantor }) => {
   const [salarySheet, setSalarySheet] = useState(null);
   const [statement, setStatement] = useState(null);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (
       !guarantor1Name ||
       !guarantor1Email ||
@@ -33,33 +47,61 @@ const LoanGurantorModal = ({ onConfirm, userDetails, setShowLoanGurantor }) => {
       !guarantor2Location ||
       !guarantor2Cnic ||
       !personalAddress ||
-      !phoneNumber ||
-      !salarySheet ||
-      !statement
+      !phoneNumber
     ) {
       toast.error("Please fill all the fields correctly");
       return;
     }
 
     const formData = {
-      guarantor1: {
-        guarantor1Name,
-        guarantor1Email,
-        guarantor1Location,
-        guarantor1Cnic,
-      },
-      guarantor2: {
-        guarantor2Name,
-        guarantor2Email,
-        guarantor2Location,
-        guarantor2Cnic,
-      },
-      personalDetails: { personalAddress, phoneNumber },
-      documents: { salarySheet, statement },
-      userDetails,
+      guarantors: [
+        {
+          name: guarantor1Name,
+          phone: guarantor1Email,
+          address: guarantor1Location,
+          city: guarantor1City,
+          country: guarantor1Country,
+        },
+        {
+          name: guarantor2Name,
+          phone: guarantor2Email,
+          address: guarantor2Location,
+          city: guarantor2City,
+          country: guarantor2Country,
+        },
+      ],
+      email: userDetails?.email || "",
+      CNIC: userDetails?.cnic,
+      name: userDetails?.userName || "",
+      phone: phoneNumber,
+      address: personalAddress,
+      city: userDetails?.city || "",
+      country: userDetails?.country || "",
+      category: category,
+      subcategory: subcategory,
+      loanPeriod: loanPeriod,
+      loanAmount: loanAmount,
+      initialDeposit: initialDeposit,
     };
 
-    console.log("formData =>" , formData);
+    console.log("formData =>", formData);
+
+    try {
+      let response = await fetch(`http://localhost:4000/api/loan/applyLoan`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const postRequest = await response.json();
+      if (response.ok) {
+        toast.success("Loan Request Sent");
+      } else {
+        toast.error("failed");
+      }
+    } catch (error) {}
+
     toast.success("Loan Application Submitted Successfully!");
   };
 
@@ -106,6 +148,26 @@ const LoanGurantorModal = ({ onConfirm, userDetails, setShowLoanGurantor }) => {
         />
       </div>
       <div className="grid w-full items-center gap-1.5 col-span-1 md:col-span-1">
+        <Label htmlFor="guarantor1Country">Guarantor 1 - Country</Label>
+        <Input
+          id="guarantor1Country"
+          type="text"
+          placeholder="Enter Guarantor 1 Country"
+          value={guarantor1Country}
+          onChange={(e) => setGuarantor1Country(e.target.value)}
+        />
+      </div>
+      <div className="grid w-full items-center gap-1.5 col-span-1 md:col-span-1">
+        <Label htmlFor="guarantor1City">Guarantor 1 - City</Label>
+        <Input
+          id="guarantor1City"
+          type="text"
+          placeholder="Enter Guarantor 1 City"
+          value={guarantor1City}
+          onChange={(e) => setGuarantor1City(e.target.value)}
+        />
+      </div>
+      <div className="grid w-full items-center gap-1.5 col-span-1 md:col-span-1">
         <Label htmlFor="guarantor2Name">Guarantor 2 - Name</Label>
         <Input
           id="guarantor2Name"
@@ -143,6 +205,26 @@ const LoanGurantorModal = ({ onConfirm, userDetails, setShowLoanGurantor }) => {
           placeholder="Enter Guarantor 2 CNIC"
           value={guarantor2Cnic}
           onChange={(e) => setGuarantor2Cnic(e.target.value)}
+        />
+      </div>
+      <div className="grid w-full items-center gap-1.5 col-span-1 md:col-span-1">
+        <Label htmlFor="guarantor2Country">Guarantor 2 - Country</Label>
+        <Input
+          id="guarantor2Country"
+          type="text"
+          placeholder="Enter Guarantor 2 Country"
+          value={guarantor2Country}
+          onChange={(e) => setGuarantor2Country(e.target.value)}
+        />
+      </div>
+      <div className="grid w-full items-center gap-1.5 col-span-1 md:col-span-1">
+        <Label htmlFor="guarantor2City">Guarantor 2 - City</Label>
+        <Input
+          id="guarantor2City"
+          type="text"
+          placeholder="Enter Guarantor 2 City"
+          value={guarantor2City}
+          onChange={(e) => setGuarantor2City(e.target.value)}
         />
       </div>
       <div className="grid w-full items-center gap-1.5 col-span-1 md:col-span-2">

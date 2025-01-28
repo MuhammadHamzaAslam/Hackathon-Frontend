@@ -2,30 +2,16 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { Link } from "react-router";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navItems = [
-    { name: "Home", href: "#" },
-    { name: "About", href: "#" },
-    { name: "Services", href: "#" },
-    { name: "Contact", href: "#" },
-  ];
-
   const NavItems = ({ mobile = false }) => (
     <>
-      {navItems.map((item) => (
-        <Button
-          key={item.name}
-          variant="ghost"
-          className={mobile ? "w-full justify-start" : "mr-4"}
-          onClick={() => setIsOpen(false)}
-        >
-          {item.name}
-        </Button>
-      ))}
-      <Button onClick={() => setIsOpen(false)}>Apply Now</Button>
+      <Link to={"/auth"}>
+        <Button onClick={() => setIsOpen(false)}>Login</Button>
+      </Link>
     </>
   );
 

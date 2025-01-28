@@ -18,7 +18,7 @@ export function LoginForm() {
     try {
       setLoading(true);
       const loginUser = await fetch(
-        `https://hackathon-backend-production-6a74.up.railway.app/api/user/login`,
+        `https://hackathon-backend-production-6a74.up.railway.app/api/auth/login`,
         {
           method: "POST",
           headers: {
@@ -44,7 +44,7 @@ export function LoginForm() {
         if (response?.checkingUser?.role === "admin") {
           navigate("/admin");
         } else if (response?.checkingUser?.role === "user") {
-          navigate("/");
+          navigate("/your-application");
         }
 
         setEmail("");
@@ -64,7 +64,7 @@ export function LoginForm() {
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
       <div className="space-y-2">
-        <Label htmlFor="cnic">CNIC</Label>
+        <Label htmlFor="cnic">Email</Label>
         <Input
           id="email"
           placeholder="Enter your Email Number"
