@@ -8,6 +8,7 @@ import UserJourney from "./User Journey/userJourney";
 import ApplicationDashboard from "./Application Dashboard/Dashboard";
 import AdminApplication from "./Admin/AdminApplication";
 import AdminCategory from "./Admin/AdminCategory";
+import ResetPassword from "./Auth/ResetPassword";
 
 function App() {
   const currentUser = getCurrentUser();
@@ -33,6 +34,7 @@ function App() {
         <Route path="/admin/application" element={<AdminApplication />} />
         <Route path="/admin/category" element={<AdminCategory />} />
         <Route path="/your-application" element={<ApplicationDashboard />} />
+        <Route path="/resetPassword" element={<ResetPassword />} />
         <Route path="/auth" element={<Auth />} />
       </Routes>
     </BrowserRouter>

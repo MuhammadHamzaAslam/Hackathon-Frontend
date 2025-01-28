@@ -221,6 +221,9 @@ export default function TeacherLayout({ children }) {
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>Profile</DropdownMenuItem>
                       <DropdownMenuItem>Settings</DropdownMenuItem>
+                      <Link to={"/resetPassword"}>
+                        <DropdownMenuItem>Reset Password</DropdownMenuItem>
+                      </Link>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={LogoutUser}>
                         Log out
