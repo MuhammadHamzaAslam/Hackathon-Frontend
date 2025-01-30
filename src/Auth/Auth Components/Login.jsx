@@ -18,7 +18,7 @@ export function LoginForm() {
     try {
       setLoading(true);
       const loginUser = await fetch(
-        `https://hackathon-backend-production-6a74.up.railway.app/api/auth/login`,
+        `http://localhost:4000/api/auth/login`,
         {
           method: "POST",
           headers: {
@@ -35,6 +35,7 @@ export function LoginForm() {
 
       sessionStorage.setItem("token", response.token);
       sessionStorage.setItem("user", JSON.stringify(response.user));
+
       setLoading(false);
 
       if (loginUser.ok) {
