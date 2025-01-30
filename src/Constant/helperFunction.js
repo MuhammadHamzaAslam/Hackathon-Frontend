@@ -8,7 +8,7 @@ export function getUserToken() {
 
 export function getCurrentUser() {
   const user = sessionStorage.getItem("user");
-  return user ? JSON.parse(user) : null;
+  return user ? JSON.parse(user || null) : null;
 }
 
 export async function LogoutUser() {

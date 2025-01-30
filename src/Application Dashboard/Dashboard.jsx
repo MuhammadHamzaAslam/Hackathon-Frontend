@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import AdminLayout from "../Admin/Admin Components/AdminLayout";
 import LoanCard from "./Dashboard Components/LoanCard";
 import AdditionalInfoModal from "./Dashboard Components/AdditionalInfoModal";
-import TeacherLayout from "./Dashboard Components/TeacherLayout";
 import { getCurrentUser } from "../Constant/helperFunction";
+import ApplicationLayout from "./Dashboard Components/ApplicationLayout";
 
 // const loanCategories = [
 //   {
@@ -59,7 +59,7 @@ export default function ApplicationDashboard() {
   };
 
   return (
-    <TeacherLayout>
+    <ApplicationLayout>
       <div className="container mx-auto p-4">
         <h1 className="text-3xl font-bold mb-6">
           The Loans You have Applied for
@@ -70,6 +70,6 @@ export default function ApplicationDashboard() {
           ))}
         </div>
       </div>
-    </TeacherLayout>
+    </ApplicationLayout>
   );
 }

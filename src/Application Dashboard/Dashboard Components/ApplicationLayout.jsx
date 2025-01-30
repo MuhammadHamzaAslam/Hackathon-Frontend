@@ -72,7 +72,7 @@ const navItems = [
   },
 ];
 
-export default function TeacherLayout({ children }) {
+export default function ApplicationLayout({ children }) {
   const loc = useLocation();
   //  console.log(loc.pathname.startsWith("/admin"));
 

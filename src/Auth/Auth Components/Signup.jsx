@@ -55,7 +55,7 @@ export function SignupForm() {
       setImageLink(secureImageLink);
 
       const signupResponse = await fetch(
-        `https://hackathon-backend-production-6a74.up.railway.app/api/user/signup`,
+        `https://hackathon-backend-production-6a74.up.railway.app/api/auth/signup`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
