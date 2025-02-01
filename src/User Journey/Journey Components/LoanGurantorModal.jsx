@@ -87,7 +87,7 @@ const LoanGurantorModal = ({
     console.log("formData =>", formData);
 
     try {
-      let response = await fetch(`http://localhost:4000/api/loan/applyLoan`, {
+      let response = await fetch(`https://hackathon-backend-production-6a74.up.railway.app/api/loan/applyLoan`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

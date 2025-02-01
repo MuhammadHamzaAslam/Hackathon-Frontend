@@ -39,7 +39,7 @@ export default function ApplicationCard({ application }) {
       const status = action === "accept" ? "Approved" : "Rejected";
 
       const response = await fetch(
-        `http://localhost:4000/api/loan/updateLoanStatus/${application._id}`,
+        `https://hackathon-backend-production-6a74.up.railway.app/api/loan/updateLoanStatus/${application._id}`,
         {
           method: "PUT",
           headers: {

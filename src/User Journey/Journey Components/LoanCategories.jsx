@@ -42,7 +42,7 @@ const LoanCategories = () => {
 
   const fetchCategories = async () => {
     let response = await fetch(
-      `http://localhost:4000/api/category/getAllCategories`
+      `https://hackathon-backend-production-6a74.up.railway.app/api/category/getAllCategories`
     );
     response = await response.json();
     setAllCategories(response.data)
